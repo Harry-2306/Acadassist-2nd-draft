@@ -5,9 +5,8 @@ import edu.univ.erp.util.Messages;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
-public class Main extends JFrame {
+ class Main extends JFrame {
     private CardLayout layout=new CardLayout();
     private JPanel root=new JPanel(layout);
 
@@ -32,7 +31,7 @@ public class Main extends JFrame {
 
 
 
-class show{
+public class show{
     public static void main(String[] args){
         Main mw = new Main();
 
