@@ -176,7 +176,7 @@ public class adminhome extends JPanel {
         contentpanel.add(subcontpanel,BorderLayout.CENTER);
 
 
-        maintainencemsg msg=new maintainencemsg("Maintainence underway bozo :p");
+        maintainencemsg msg=new maintainencemsg(Messages.ADMN_MAINT_MSG);
         this.add(navbar,BorderLayout.NORTH);
         this.add(contentpanel,BorderLayout.CENTER);
         if(statevar.getmaintainencecheck()){

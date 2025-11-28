@@ -152,7 +152,7 @@ public class admcourses extends JPanel {
 
 
 
-        maintainencemsg msg=new maintainencemsg("Maintainence underway bozo :p");
+        maintainencemsg msg=new maintainencemsg(Messages.ADMN_MAINT_MSG);
 
         this.add(navbar,BorderLayout.NORTH);
         this.add(maincontpanel,BorderLayout.CENTER);
@@ -228,10 +228,21 @@ class createassign extends JPanel{
                 if(inp1.txtinput.getText().isEmpty()||inp2.txtinput.getText().isEmpty()||inp3.txtinput.getText().isEmpty()||inp4.txtinput.getText().isEmpty()||inp5.txtinput.getText().isEmpty()||inp6.txtinput.getText().isEmpty()){
                     throw new Exception(Messages.EMPTY_FIELD);
                 }
-                if(Fetch.coursecodeexists(inp1.txtinput.getText())&&Fetch.sectionidexists(inp3.txtinput.getText())&&Fetch.instructorexists(inp2.txtinput.getText())){
+                //check if course code exists and instructor id both exist
+                //check if the section id is unique
+                if(!(Fetch.coursecodeexists(inp1.txtinput.getText())&&Fetch.instructorexists(inp2.txtinput.getText()))){
+                    throw new Exception(Messages.INVALID_COURS_ID);
+                }
+
+
+                if(Fetch.sectionidexists(inp3.txtinput.getText())){
                     throw new Exception(Messages.UNIQUE_VALUE_ERR);
                 }
+
                 int nums=Integer.parseInt(inp6.txtinput.getText());
+                if(nums<0){
+                    throw new Exception(Messages.NEGATIVE_VAL_ERROR);
+                }
 
                 String courseid=inp1.txtinput.getText();
                 String sectionid=inp3.txtinput.getText();
@@ -408,6 +419,9 @@ class createcourse extends JPanel{
                 String coursetitle=inp2.txtinput.getText();
                 String prerequisite=inp4.txtinput.getText();
                 int credits = Integer.parseInt(inp3.txtinput.getText());
+                if(credits<0){
+                    throw new Exception(Messages.NEGATIVE_VAL_ERROR);
+                }
                 //write to table
                 POST.course(coursecode,coursetitle,credits,prerequisite);
                 simpmsgdialog msg=new simpmsgdialog(Messages.SAVED_SUCCESFULLY);

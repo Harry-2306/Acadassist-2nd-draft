@@ -201,6 +201,10 @@ public class GET {
         }
     }
 
+    public static boolean checkifinsec(String courseid,String userid) throws SQLException {
+        return Fetch.checkifinsec(courseid,userid);
+    }
+
     public static ArrayList<droppablecourseinfo> details(String id) throws SQLException {
         return Fetch.details(id);
     }

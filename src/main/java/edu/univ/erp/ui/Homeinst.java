@@ -166,7 +166,7 @@ public class Homeinst extends JPanel {
 
 
 
-        maintainencemsg msg=new maintainencemsg("Maintainence underway! You cannot upload grades for the time being.Pls contact admin for more info.");
+        maintainencemsg msg=new maintainencemsg(Messages.INST_MAINT_MSG);
 
 
         this.add(navbar,BorderLayout.NORTH);
@@ -279,10 +279,7 @@ class instnavbar extends JPanel {
         navbutt3.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(statevar.getmaintainencecheck()){
-                    errorinfodialog msg=new errorinfodialog(Messages.NO_GRIEVANCE);
-                    return;
-                }
+
                 try{
                     instructorprofile output = GET.instdetails(statevar.getId());
                     output.name=statevar.getUsername();
@@ -316,8 +313,13 @@ class instnavbar extends JPanel {
         });
 
         navbutt2.addMouseListener(new MouseListener() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
+                if(statevar.getmaintainencecheck()){
+                    errorinfodialog msg=new errorinfodialog(Messages.NO_GRIEVANCE);
+                    return;
+                }
                 mw.showPage("instgrievance");
             }
             @Override

@@ -142,7 +142,7 @@ public class maintain extends JPanel {
 
 
 
-        maintainencemsg msg=new maintainencemsg("Maintainence Underway Bozo :p");
+        maintainencemsg msg=new maintainencemsg(Messages.ADMN_MAINT_MSG);
 
         this.add(navbar,BorderLayout.NORTH);
         this.add(maincontpanel,BorderLayout.CENTER);

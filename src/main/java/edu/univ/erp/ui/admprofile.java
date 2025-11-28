@@ -2,6 +2,7 @@ package edu.univ.erp.ui;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import edu.univ.erp.data.Statevariables;
+import edu.univ.erp.util.Messages;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,7 +44,7 @@ public class admprofile extends JPanel {
         myprofpan.setBorder(new ArcBorder(Color.GRAY,2,12));
         myprofpan.add(instprof,BorderLayout.CENTER);
 
-        maintainencemsg msg=new maintainencemsg("Maintainence underway bozo!");
+        maintainencemsg msg=new maintainencemsg(Messages.ADMN_MAINT_MSG);
 
         this.add(navpanel,BorderLayout.NORTH);
         this.add(myprofpan,BorderLayout.CENTER);

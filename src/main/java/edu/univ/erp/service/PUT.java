@@ -21,10 +21,11 @@ public class PUT {
 
     public static void enrollments(String section_id) throws SQLException {
         Update.enrollments(section_id);
+
     }
 
     public static void gradedsection(String section_id) throws SQLException {
-        Update.enrollments(section_id);
+        Update.gradedsection(section_id);
     }
 
     public static void evaluations(ArrayList<StudentGrade> array,String sectionid,String courseid,String credits,String title) throws SQLException {

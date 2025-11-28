@@ -99,6 +99,10 @@ public class Courses extends JPanel {
                         count++;
                     }
                 }
+                if(statevar.now.isAfter(statevar.expirydate)){
+                    errorinfodialog ms=new errorinfodialog(Messages.DEADLINE_EXPIRED);
+                    return;
+                }
                 if (selectedindices.size() != 0) {
                     try {
                         POST.selectedcourses(selectedindices, statevar.getListofaddables(), statevar.getId(), statevar);
@@ -271,7 +275,7 @@ public class Courses extends JPanel {
 
 
 
-        maintainencemsg msg=new maintainencemsg("Maintainence Underway! Please Cooperate");
+        maintainencemsg msg=new maintainencemsg(Messages.STU_MAINT_MSG);
 
         this.add(navpanel,BorderLayout.NORTH);
         this.add(maincontpanel,BorderLayout.CENTER);

@@ -250,7 +250,7 @@ public class MyProfile extends JPanel {
 
 
 
-        maintainencemsg msg=new maintainencemsg("Maintainence Underway! Please Cooperate");
+        maintainencemsg msg=new maintainencemsg(Messages.STU_MAINT_MSG);
 
 
         this.add(navpanel,BorderLayout.NORTH);

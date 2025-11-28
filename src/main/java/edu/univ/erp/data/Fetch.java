@@ -415,6 +415,19 @@ public class Fetch {
         return false;
     }
 
+    public static boolean checkifinsec(String sectionid,String userid) throws SQLException {
+        Connection connection=DatabasePool.geterpdbConnection();
+        Statement statement=connection.createStatement();
+        String query="select sectionid from enrollments where sectionid='"+sectionid+"' and userid='"+userid+"';";
+        ResultSet rs=statement.executeQuery(query);
+
+        if(rs.next()){
+            connection.close();
+            return true;
+        }
+        connection.close();
+        return false;
+    }
 
 
    public static String  coursetitlefromcourse(String id) throws SQLException{
@@ -522,11 +535,11 @@ public class Fetch {
         ArrayList<droppablecourseinfo> output=new ArrayList<>();
         Connection connection=DatabasePool.geterpdbConnection();
         Statement statement=connection.createStatement();
-        String sql =
-                "SELECT s.courseid, c.coursetitle, s.instructor, s.venue " +
-                        "FROM courses c " +
-                        "INNER JOIN enrollments s ON s.courseid = c.coursecode " +
-                        "WHERE s.userid = ?";
+        String sql = "SELECT s.courseid, c.coursetitle, s.instructor, s.venue " +
+                "FROM courses c " +
+                "INNER JOIN enrollments s ON s.courseid = c.coursecode " +
+                "WHERE s.userid = ? AND s.isgraded = FALSE";
+
 
 
 

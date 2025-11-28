@@ -139,7 +139,7 @@ public class mysections extends JPanel {
         mainpan.add(myseclab,BorderLayout.NORTH);
         mainpan.add(scrollpane,BorderLayout.CENTER);
 
-        maintainencemsg msg=new maintainencemsg("Maintainence Underway! You cannot upload any grades for now ");
+        maintainencemsg msg=new maintainencemsg(Messages.INST_MAINT_MSG);
         this.add(navbar,BorderLayout.NORTH);
         this.add(mainpan,BorderLayout.CENTER);
         if(statevar.getmaintainencecheck()){
@@ -214,6 +214,8 @@ class mysectioncard extends JPanel{
                 errorinfodialog msg1=new errorinfodialog(Messages.TAB_OPEN_ERROR);
             } catch (InvalidOperationException ex) {
                 errorinfodialog msg=new errorinfodialog(ex.getMessage());
+            }catch (Exception ep){
+                System.out.println(ep.getMessage());
             }
         });
 

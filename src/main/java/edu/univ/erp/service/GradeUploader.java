@@ -1,7 +1,12 @@
 package edu.univ.erp.service;
+import edu.univ.erp.util.Messages;
+//import com.mysql.cj.Messages;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import edu.univ.erp.data.Fetch;
 import edu.univ.erp.domain.StudentGrade;
+import edu.univ.erp.ui.errorinfodialog;
+import edu.univ.erp.util.simpmsgdialog;
 
 import javax.swing.*;
 import java.io.FileReader;
@@ -21,8 +26,7 @@ public class GradeUploader {
     public static void uploadGrades(String sectionId,String courseid,String credits,String title) throws SQLException {
 
         if (GET.isgraded(sectionId)) {
-            JOptionPane.showMessageDialog(null,
-                    "This section has already been graded!", "Oops!", JOptionPane.ERROR_MESSAGE);
+            errorinfodialog msg=new errorinfodialog(Messages.ALREADY_GRADED_SECN);
             return;
         }
 
@@ -33,8 +37,7 @@ public class GradeUploader {
         String filePath = fileChooser.getSelectedFile().getAbsolutePath();
 
         if (!filePath.toLowerCase().endsWith(".csv")) {
-            JOptionPane.showMessageDialog(null, "Please select a valid CSV file!",
-                    "Invalid File", JOptionPane.ERROR_MESSAGE);
+            errorinfodialog msg=new errorinfodialog(Messages.SELECT_CSV);
             return;
         }
 
@@ -45,45 +48,40 @@ public class GradeUploader {
         try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
             String[] row;
 
-            // Skip header row
             if ((row = reader.readNext()) == null) {
-                JOptionPane.showMessageDialog(null, "CSV is empty!", "File Error", JOptionPane.ERROR_MESSAGE);
+                errorinfodialog msg=new errorinfodialog(Messages.EMPTY_CSV);
                 return;
             }
 
             while ((row = reader.readNext()) != null) {
                 lineNum++;
 
-                // Expecting 7 columns: userId, semester, quiz, assignment, project, midsem, endsem
                 if (row.length != 7) {
-                    JOptionPane.showMessageDialog(null,
-                            "Line " + lineNum + " doesn't have 7 columns. Check your CSV.",
-                            "Format Error", JOptionPane.ERROR_MESSAGE);
+                    errorinfodialog msg=new errorinfodialog(Messages.INVALID_COL);
                     return;
                 }
 
                 String userId = row[0].trim();
-                String semester = row[1].trim().replace("\uFEFF", ""); // Remove BOM if present
+                String semester = row[1].trim();
 
                 if (userId.isEmpty()) {
-                    JOptionPane.showMessageDialog(null,
-                            "User ID is empty at line " + lineNum,
-                            "Data Error", JOptionPane.ERROR_MESSAGE);
+
+                    errorinfodialog msg=new errorinfodialog(Messages.EMPTY_LINE);
+                    return;
+                }
+                if(!GET.checkifinsec(sectionId,userId)){
+                    System.out.println(userId);
+                    errorinfodialog ms=new errorinfodialog("student id in file does not belong to your section");
                     return;
                 }
 
                 if (!ALLOWED_SEMESTERS.contains(semester)) {
-                    JOptionPane.showMessageDialog(null,
-                            "Invalid semester '" + semester + "' at line " + lineNum +
-                                    ". Allowed values: Semester 1, Semester 2, Semester 3",
-                            "Data Error", JOptionPane.ERROR_MESSAGE);
+                    errorinfodialog ms=new errorinfodialog(Messages.INV_SEM_ENTRY);
                     return;
                 }
 
                 if (userIds.contains(userId)) {
-                    JOptionPane.showMessageDialog(null,
-                            "Duplicate User ID '" + userId + "' at line " + lineNum,
-                            "Data Error", JOptionPane.ERROR_MESSAGE);
+                    errorinfodialog msg=new errorinfodialog(Messages.DUPLICATE_ENTRY);
                     return;
                 }
                 userIds.add(userId);
@@ -96,17 +94,13 @@ public class GradeUploader {
                     midsem = Integer.parseInt(row[5].trim());
                     endsem = Integer.parseInt(row[6].trim());
                 } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null,
-                            "Non-numeric value at line " + lineNum,
-                            "Data Error", JOptionPane.ERROR_MESSAGE);
+                    errorinfodialog msg=new errorinfodialog(Messages.NON_SENSICAL_VALUE);
                     return;
                 }
 
                 if (!isValidMark(quiz) || !isValidMark(assignment) ||
                         !isValidMark(project) || !isValidMark(midsem) || !isValidMark(endsem)) {
-                    JOptionPane.showMessageDialog(null,
-                            "Marks must be 0-100. Check line " + lineNum,
-                            "Data Error", JOptionPane.ERROR_MESSAGE);
+                    errorinfodialog msg=new errorinfodialog(Messages.SHOOT_BOUND);
                     return;
                 }
 
@@ -114,15 +108,11 @@ public class GradeUploader {
             }
 
         } catch (IOException | CsvValidationException e) {
-            JOptionPane.showMessageDialog(null,
-                    "Error reading CSV: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+            errorinfodialog msg=new errorinfodialog(Messages.CSV_READ_ERR);
             return;
         }
 
-        JOptionPane.showMessageDialog(null,
-                "CSV loaded successfully! Total records: " + gradesList.size(),
-                "Success", JOptionPane.INFORMATION_MESSAGE);
-
+        simpmsgdialog msg=new simpmsgdialog(Messages.CSV_LOADING_COMPLETE);
         GradeUploader.saveGradesToDB(gradesList,sectionId,courseid,credits,title);
     }
 

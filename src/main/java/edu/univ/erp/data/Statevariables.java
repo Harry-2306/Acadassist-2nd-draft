@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class Statevariables{
     //common to all
-    public LocalDate now=LocalDate.of(2026,1,1);
-    public LocalDate expirydate=LocalDate.of(2025,12,31);
+    public LocalDate expirydate=LocalDate.of(2026,1,1);
+    public LocalDate now=LocalDate.of(2025,12,31);
     private String username="Student";
     private String id="";
     private String DOB="YYYY-MM-DD";

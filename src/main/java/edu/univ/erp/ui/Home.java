@@ -228,7 +228,7 @@ public class Home extends JPanel {
         contentpanel.add(subcontpanel,BorderLayout.CENTER);
 
 
-        maintainencemsg msg=new maintainencemsg("Maintainence Underway! You cannot add/drop any new courses at the moment. Kindly contact admin for more information.");
+        maintainencemsg msg=new maintainencemsg(Messages.STU_MAINT_MSG);
 
         JLabel maintcheck=new JLabel("Maintainence");
         maintcheck.setBackground(PURPLE);
